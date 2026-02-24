@@ -10,10 +10,8 @@
   --font-heading: "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
   --transition: all 0.3s ease;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --shadow: 0 10px 30px -10px rgba(16, 38, 42, 0.1);
-  --shadow-hover: 0 20px 40px -10px rgba(16, 38, 42, 0.15);
+  --shadow: 0 10px 24px -12px rgba(16, 38, 42, 0.14);
+  --shadow-hover: 0 12px 28px -14px rgba(16, 38, 42, 0.18);
 }
 
 * {
@@ -29,9 +27,32 @@ html {
 body {
   font-family: var(--font-body);
   color: var(--text-dark);
-  line-height: 1.6;
+  line-height: 1.7;
   background-color: var(--background-off-white);
   overflow-x: hidden;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 1001;
+  background: var(--primary-color);
+  color: var(--text-dark);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
 }
 
 h1,
@@ -61,7 +82,7 @@ a {
 
 .btn {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 12px 22px;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
@@ -78,12 +99,16 @@ a {
 
 .btn-primary:hover {
   background-color: #00d4a0;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 233, 176, 0.3);
+  box-shadow: 0 8px 18px rgba(0, 233, 176, 0.25);
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(0, 233, 176, 0.5);
+  outline-offset: 3px;
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
   text-align: center;
   margin-bottom: 3rem;
   position: relative;
@@ -108,7 +133,7 @@ a {
   width: 100%;
   z-index: 1000;
   background: transparent; /* Transparent by default */
-  padding: 1rem 0;
+  padding: 0.85rem 0;
   transition: all 0.3s ease; /* Smooth transition */
 }
 
@@ -124,6 +149,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo {
@@ -142,13 +168,28 @@ a {
 }
 
 .nav-links {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 2rem;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
-.nav-links a:not(.btn) {
-  font-weight: 500;
+.nav-links.active {
+  display: flex;
+}
+
+.nav-links a {
+  font-weight: 600;
   color: var(--text-dark);
 }
 
@@ -157,7 +198,7 @@ a {
 }
 
 .mobile-menu-btn {
-  display: none;
+  display: flex;
   background: none;
   border: none;
   cursor: pointer;
@@ -174,21 +215,18 @@ a {
 }
 
 /* Hero Section */
+
 .hero {
   position: relative;
-  padding: 180px 0 120px;
+  padding: 120px 0 88px;
   text-align: center;
-  background: radial-gradient(
-    circle at 50% 10%,
-    rgba(0, 233, 176, 0.1),
-    transparent 60%
-  );
+  background: linear-gradient(180deg, #fdfefd 0%, #f5fbf8 45%, #f8fcfb 100%);
   overflow: hidden;
 }
 
 .hero-headline {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
+  font-size: clamp(2.1rem, 5vw, 3.1rem);
+  margin-bottom: 1.1rem;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -196,17 +234,17 @@ a {
 }
 
 .hero-subheadline {
-  font-size: 1.25rem;
+  font-size: 1.02rem;
   color: var(--text-muted);
-  max-width: 700px;
-  margin: 0 auto 3rem;
+  max-width: 720px;
+  margin: 0 auto 2.2rem;
 }
 
 .hero-cta {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .cta-note {
@@ -217,31 +255,27 @@ a {
 
 /* Features Section */
 .features {
-  padding: 100px 0;
+  padding: 84px 0;
   background-color: var(--white);
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
-  gap: 2rem;
-  max-width: 900px; /* Constrain width to keep cards closer */
-  margin: 0 auto; /* Center the grid */
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
 }
 
 .feature-card {
   background: var(--white);
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  transition: var(--transition);
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
+  padding: 2rem;
+  border-radius: 14px;
   box-shadow: var(--shadow-hover);
-  border-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  transition: var(--transition);
 }
 
 .feature-icon {
@@ -258,7 +292,7 @@ a {
 
 .feature-card h3 {
   margin-bottom: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 
 .feature-card p {
@@ -267,32 +301,29 @@ a {
 
 /* Process Section */
 .process {
-  padding: 100px 0;
-  background-color: transparent; /* Changed from var(--background-off-white) to show animation */
+  padding: 84px 0;
+  background-color: var(--background-off-white);
 }
 
 .process-steps {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .step-card {
   background: var(--white);
-  padding: 2.5rem;
-  border-radius: 16px;
+  padding: 2rem;
+  border-radius: 14px;
   display: flex;
   gap: 1.5rem;
   align-items: flex-start;
   transition: var(--transition);
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  box-shadow: var(--shadow); /* Added shadow to match feature-card */
-}
-
-.step-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  box-shadow: var(--shadow-hover); /* Added shadow to match feature-card */
 }
 
 /* Removed alternating background tints to match "Why Choose Enarra" box style strictly */
@@ -315,7 +346,7 @@ a {
 
 .step-content h3 {
   margin-bottom: 0.5rem;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 
 .step-content p {
@@ -325,7 +356,7 @@ a {
 
 /* Services Section (What We Automate) */
 .services {
-  padding: 100px 0;
+  padding: 84px 0;
   background-color: var(--white);
 }
 
@@ -334,23 +365,21 @@ a {
   max-width: 800px;
   margin: 0 auto;
   display: grid;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  padding: 0;
 }
 
 .service-list li {
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 1.125rem;
-  padding: 1.5rem;
-  background-color: var(--background-off-white);
+  font-size: 1.05rem;
+  padding: 1.35rem 1.25rem;
+  background-color: #f1f7f4;
   border-radius: 12px;
+  border: 1px solid var(--primary-color);
+  box-shadow: var(--shadow-hover);
   transition: var(--transition);
-}
-
-.service-list li:hover {
-  background-color: var(--primary-light);
-  transform: translateX(5px);
 }
 
 .check-icon {
@@ -360,8 +389,8 @@ a {
 
 /* CTA Section */
 .cta {
-  padding: 100px 0;
-  background-color: var(--text-dark);
+  padding: 84px 0;
+  background-color: #0f1f23;
   color: var(--white);
   text-align: center;
 }
@@ -378,8 +407,8 @@ a {
 
 .cta p {
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2.5rem;
-  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
 }
 
 /* Hidden Testimonials */
@@ -389,14 +418,14 @@ a {
 
 /* Footer */
 footer {
-  padding: 80px 0 40px;
+  padding: 72px 0 36px;
   background-color: var(--background-off-white);
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 2rem;
   text-align: center;
   margin-bottom: 4rem;
@@ -416,6 +445,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 0;
 }
 
 .footer-col a {
@@ -444,7 +474,6 @@ footer {
 
 .social-icon:hover {
   color: var(--primary-color);
-  transform: translateY(-2px);
 }
 
 .footer-bottom {
@@ -452,7 +481,7 @@ footer {
   color: var(--text-muted);
   font-size: 0.875rem;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   margin-top: 2rem;
 }
 
@@ -461,42 +490,90 @@ footer {
   opacity: 0.7;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--white);
-    flex-direction: column;
-    padding: 2rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/* Responsive - up */
+@media (min-width: 640px) {
+  .hero {
+    padding: 140px 0 104px;
   }
 
-  .nav-links.active {
+  .section-title {
+    font-size: clamp(2.1rem, 3vw, 2.8rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .nav-links {
     display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .nav-links li:last-child {
+    margin-left: 0.5rem;
+  }
+
+  .nav-links button {
+    padding: 12px 22px;
+    border-radius: 8px;
   }
 
   .mobile-menu-btn {
-    display: flex;
+    display: none;
   }
 
-  .hero-headline {
-    font-size: 2.5rem;
+  .hero-subheadline {
+    font-size: 1.08rem;
   }
 
   .features-grid,
-  .process-steps,
-  .footer-grid {
-    grid-template-columns: 1fr; /* Stack everything on mobile */
+  .process-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Force "hover" state on mobile for better visibility */
   .feature-card,
   .step-card {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow);
+  }
+
+  .feature-card:hover,
+  .step-card:hover {
     border-color: var(--primary-color);
     box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+
+  .service-list li {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow);
+  }
+
+  .service-list li:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 170px 0 116px;
+  }
+
+  .features-grid {
+    gap: 2rem;
+  }
+
+  .process-steps {
+    gap: 2rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
